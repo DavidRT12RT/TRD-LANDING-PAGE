@@ -8,7 +8,8 @@ import LoadingScreen from "@/components/generales/LoadingScreen";
 import DatosPersonales from "@/components/usuarios/DatosPersonales";
 import DatosFacturacion from "@/components/usuarios/DatosFacturacion";
 
-const page = () => {
+//Cambio esto
+const Page = () => {
   const methods = useForm({
     defaultValues: {
       nombre: "",
@@ -205,4 +206,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
