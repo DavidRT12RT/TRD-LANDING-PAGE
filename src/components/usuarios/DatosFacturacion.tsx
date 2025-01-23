@@ -26,7 +26,7 @@ const DatosFacturacion = ({ methods, showCheckBox = true }: any) => {
         <>
           <Input
             size="sm"
-            label="Nombre"
+            label="Nombre(s)"
             isInvalid={!!errors.nombre_facturacion}
             errorMessage={errors.nombre_facturacion?.message}
             {...register("nombre_facturacion", {
@@ -93,7 +93,7 @@ const DatosFacturacion = ({ methods, showCheckBox = true }: any) => {
               defaultValue="+52"
               control={control}
               name="codigo_pais_facturacion"
-              label="Codigo de pais"
+              label="Código de país"
               size="sm"
             />
             <Input

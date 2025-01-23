@@ -24,7 +24,7 @@ const DatosPersonales = ({
       {/* Nombre */}
       <Input
         size="sm"
-        label="Nombre"
+        label="Nombre(s)"
         isInvalid={!!formState.errors.nombre}
         errorMessage={formState.errors.nombre?.message}
         {...register("nombre", { required: "El nombre es obligatorio" })}
@@ -161,7 +161,7 @@ const DatosPersonales = ({
               <Download size={20} />
               <div className="flex flex-col">
                 <p className="text-sm">
-                  Haz clic o arrastra los archivos a esta área para cargarlo
+                  Haz clic o arrastra los archivos en esta área para cargarlo
                 </p>
                 <p className="text-gray-500 text-xs">
                   JPG, PNG, Tiff, hasta 2 MB
