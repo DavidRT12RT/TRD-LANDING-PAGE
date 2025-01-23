@@ -1,36 +1,111 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# Challenge de TRD
 
-First, run the development server:
+Este proyecto es una pequeña prueba técnica realizada para el **challenge de TRD**. En él se utilizan tecnologías como **Next.js** para el desarrollo del frontend, **Supabase** para la gestión de la base de datos y la autenticación, **Amazon S3** para el almacenamiento de archivos, y la **Open Meteo API** para obtener datos meteorológicos.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Tecnologías utilizadas
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Next.js**: Framework para React que permite el renderizado en el servidor y la generación de páginas estáticas.
+- **Supabase**: Plataforma de backend como servicio (BaaS) que proporciona bases de datos, autenticación y almacenamiento.
+- **Amazon S3**: Servicio de almacenamiento de objetos para almacenar y recuperar archivos.
+- **Open Meteo API**: API para obtener datos meteorológicos gratuitos.
+- **React**: Biblioteca de JavaScript para construir interfaces de usuario.
+- **Tailwind CSS**: Framework de CSS para diseño rápido y responsivo.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Requisitos previos
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Antes de ejecutar el proyecto, asegúrate de tener los siguientes programas instalados:
 
-## Learn More
+- **Node.js** (version 16 o superior)
+- **npm** o **yarn** (para gestionar las dependencias)
+- Una cuenta en **Supabase** y **Amazon Web Services (AWS)** (para configurar la base de datos y el almacenamiento)
 
-To learn more about Next.js, take a look at the following resources:
+## Instrucciones para ejecutar el proyecto
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Clonar el repositorio**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   Primero, clona el repositorio a tu máquina local:
 
-## Deploy on Vercel
+   ```bash
+   git clone https://github.com/tu-usuario/tu-repositorio.git
+   cd tu-repositorio
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. **Instalar las dependencias**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   Instala las dependencias necesarias utilizando npm o yarn:
+
+   ```bash
+   npm install
+   # o si prefieres usar yarn:
+   yarn install
+   ```
+
+3. **Configurar variables de entorno**
+
+   Crea un archivo `.env.local` en la raíz del proyecto y agrega las siguientes variables:
+
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=<tu_url_de_supabase>
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=<tu_clave_anonima_de_supabase>
+   NEXT_PUBLIC_AWS_ACCESS_KEY_ID=<tu_access_key_de_aws>
+   NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY=<tu_secret_access_key_de_aws>
+   NEXT_PUBLIC_AWS_BUCKET_NAME=<tu_nombre_de_bucket_de_s3>
+   OPEN_METEO_API_KEY=<tu_clave_de_api_de_open_meteo>
+   ```
+
+   Asegúrate de reemplazar los valores entre `< >` con los detalles correspondientes.
+
+4. **Ejecutar el proyecto en desarrollo**
+
+   Para iniciar el servidor de desarrollo, ejecuta:
+
+   ```bash
+   npm run dev
+   # o si prefieres usar yarn:
+   yarn dev
+   ```
+
+   El proyecto estará disponible en [http://localhost:3000](http://localhost:3000).
+
+5. **Desplegar en producción**
+
+   Si deseas desplegar el proyecto en producción, puedes ejecutar:
+
+   ```bash
+   npm run build
+   npm run start
+   # o si prefieres usar yarn:
+   yarn build
+   yarn start
+   ```
+
+## API utilizada
+
+### **Supabase**
+
+Supabase se utiliza para gestionar la base de datos y la autenticación de usuarios. Las credenciales necesarias se configuran en el archivo `.env.local`.
+
+### **Amazon S3**
+
+Amazon S3 se utiliza para almacenar archivos como imágenes. Las credenciales de AWS (access key y secret key) deben ser configuradas también en el archivo `.env.local`.
+
+### **Open Meteo API**
+
+La Open Meteo API se utiliza para obtener datos meteorológicos. Necesitarás una clave API, que puedes obtener en [Open Meteo API](https://open-meteo.com/) y configurarla en el archivo `.env.local`.
+
+## Estructura del proyecto
+
+- `pages/`: Contiene las rutas principales del proyecto.
+- `components/`: Contiene los componentes reutilizables del proyecto.
+- `lib/`: Contiene las funciones y configuraciones relacionadas con Supabase, S3 y la Open Meteo API.
+- `public/`: Archivos estáticos como imágenes y fuentes.
+- `styles/`: Archivos CSS (usando Tailwind CSS).
+
+## Contribuciones
+
+Las contribuciones son bienvenidas. Si tienes sugerencias o mejoras, siéntete libre de crear un Pull Request o abrir un Issue en el repositorio.
+
+## Licencia
+
+Este proyecto está bajo la Licencia MIT. Para más detalles, consulta el archivo [LICENSE](LICENSE).
