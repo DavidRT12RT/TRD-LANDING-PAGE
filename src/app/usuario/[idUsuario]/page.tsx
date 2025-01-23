@@ -3,17 +3,22 @@ import LoadingScreen from "@/components/generales/LoadingScreen";
 import DatosFacturacion from "@/components/usuarios/DatosFacturacion";
 import DatosPersonales from "@/components/usuarios/DatosPersonales";
 import Imagenes from "@/components/usuarios/Imagenes";
+import { getWeatherData } from "@/lib/getWeatherData";
 import { CloudSun } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
-const page = () => {
+type Weather = {
+  temperature: number;
+};
+
+const Page = () => {
   const { idUsuario } = useParams();
   const router = useRouter();
-  const [isLoading, setisLoading] = useState(true);
-  const [weather, setWeather] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [weather, setWeather] = useState<Weather | null>(null);
   const [locationError, setLocationError] = useState<string>("");
 
   const methods = useForm({
@@ -27,7 +32,6 @@ const page = () => {
       telefono: "",
       files: [],
       usarDatosFacturacion: true,
-
       nombre_facturacion: "",
       apellidos_facturacion: "",
       tipo_documento_facturacion: "",
@@ -37,9 +41,6 @@ const page = () => {
       telefono_facturacion: "",
     },
   });
-
-  const formValues = methods.getValues();
-  console.log(formValues);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,7 +61,6 @@ const page = () => {
             telefono: result.data.telefono || "",
             usarDatosFacturacion: result.data.usarDatosFacturacion || true,
             files: result.data.files || [],
-
             nombre_facturacion: result.data.nombre_facturacion || "",
             apellidos_facturacion: result.data.apellidos_facturacion || "",
             tipo_documento_facturacion:
@@ -84,7 +84,7 @@ const page = () => {
         router.push("/");
         toast.error("Error obteniendo la información del usuario.");
       } finally {
-        setisLoading(false);
+        setIsLoading(false);
       }
     };
 
@@ -92,30 +92,18 @@ const page = () => {
   }, [idUsuario, methods]);
 
   // Función para obtener la ubicación y llamar a la API de Open Meteo
-  const getWeatherData = async (latitude: number, longitude: number) => {
-    try {
-      const response = await fetch(
-        `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`
-      );
-      const data = await response.json();
-      if (data.current_weather) {
-        setWeather(data.current_weather);
-      } else {
-        setLocationError("No se pudo obtener información del clima.");
-      }
-    } catch (error) {
-      setLocationError("No se pudo obtener el clima.");
-      console.error(error);
-    }
-  };
-
-  // Obtener la ubicación del usuario
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        (position) => {
+        async (position) => {
           const { latitude, longitude } = position.coords;
-          getWeatherData(latitude, longitude);
+          try {
+            const weatherData = await getWeatherData(latitude, longitude); 
+            setWeather(weatherData); 
+          } catch (error:any) {
+            setLocationError(error.message);
+            console.error(error);
+          }
         },
         (error) => {
           setLocationError("No se pudo obtener la ubicación.");
@@ -145,9 +133,7 @@ const page = () => {
             className="w-16 h-16 mb-5"
             style={{ objectFit: "contain" }}
           />
-          <div
-            className="w-full flex justify-between items-center max-w-5xl mb-5"
-          >
+          <div className="w-full flex justify-between items-center max-w-5xl mb-5">
             <h2 className="text-lg whitespace-nowrap">
               Hola, {methods.watch("nombre")} {methods.watch("apellidos")}
             </h2>
@@ -164,19 +150,13 @@ const page = () => {
               <CloudSun size={32} />
             </div>
           </div>
-          <div
-            className="flex flex-col gap-5 lg:flex-row lg:gap-10 w-full max-w-5xl 
-        justify-center items-center lg:items-stretch h-full"
-          >
+          <div className="flex flex-col gap-5 lg:flex-row lg:gap-10 w-full max-w-5xl justify-center items-center lg:items-stretch h-full">
             {/* Columna izquierda */}
             <div className="w-full lg:w-1/2 flex flex-col items-center lg:items-start">
               <Imagenes files={methods.watch("files")} />
             </div>
             {/* Columna derecha */}
-            <div
-              className="w-full lg:w-1/2 flex flex-col gap-5 items-center lg:items-start 
-          justify-between h-full"
-            >
+            <div className="w-full lg:w-1/2 flex flex-col gap-5 items-center lg:items-start justify-between h-full">
               <div className="flex flex-col gap-5 w-full">
                 <DatosPersonales methods={methods} showFileUpload={false} />
                 <DatosFacturacion methods={methods} showCheckBox={false} />
@@ -189,4 +169,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
